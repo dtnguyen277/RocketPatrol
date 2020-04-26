@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('8_bit', './assets/8bit.mp3');
     }
 
     create() {
@@ -38,6 +39,11 @@ class Menu extends Phaser.Scene {
         menuConfig.color = '#000';
         this.add.text(centerX, centerY + textSpacer, 'Press <- for Easy or -> for Hard', 
         menuConfig).setOrigin(0.5);
+        
+        menuConfig.color = '#FFF'
+        menuConfig.backgroundColor = '#0000FF'
+        this.highScore = this.add.text(game.config.width - 300, 54, "High Score: " 
+        + hiScore, menuConfig);
 
         // launch the next scene
         // this.scene.start("playScene");
@@ -47,6 +53,19 @@ class Menu extends Phaser.Scene {
         .KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard
         .KeyCodes.RIGHT);
+
+        // define audio object
+        this.menuAudio = this.sound.add('8_bit');
+        var musicConfig = {
+            mute: false,
+            volume: .05,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.menuAudio.play(musicConfig);
     }
 
     update() {
@@ -56,6 +75,7 @@ class Menu extends Phaser.Scene {
                 spaceshipSpeed: 3,
                 gameTimer: 60000
             }
+            this.sound.play('8_bit');
             this.sound.play('sfx_select');
             this.scene.start("playScene");
         }

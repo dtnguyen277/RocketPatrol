@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         // load images/tile sprite
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield', './assets/starfield2.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', 
         {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -34,11 +34,11 @@ class Play extends Phaser.Scene {
 
         // add spaceship (x3)
         this.ship01 = new Spaceship(this, game.config.width +192, 132,
-        'spaceship', 0, 30).setOrigin(0,0);
+        'spaceship', 0, 30, Phaser.Math.Between(0,1)).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width +96, 196,
-        'spaceship', 0, 20).setOrigin(0,0);
+        'spaceship', 0, 20, Phaser.Math.Between(0,1)).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, 260,
-        'spaceship', 0, 10).setOrigin(0,0);
+        'spaceship', 0, 10, Phaser.Math.Between(0,1)).setOrigin(0,0);
 
         // define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard
@@ -73,7 +73,20 @@ class Play extends Phaser.Scene {
         }
         this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
 
-        //game over flag
+        scoreConfig.backgroundColor = '#FF0000';
+        scoreConfig.fixedWidth = 0;
+        fireUI = this.add.text(game.config.width/2-120, 54, "FIRE", scoreConfig);
+        fireUI.alpha = 0;
+        
+        scoreConfig.fixedWidth = 0;
+        scoreConfig.color = '#FFF'
+        scoreConfig.backgroundColor = '#0000FF'
+        this.highScore = this.add.text(game.config.width - 300, 54, "High Score: " 
+        + hiScore, scoreConfig);
+
+        
+
+        // game over flag
         this.gameOver = false;
 
         // 60 second play clock
@@ -84,6 +97,11 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 
             '(F)ire to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
+        }, null, this);
+
+        // speed up game after 30 seconds
+        this.time.delayedCall(30000, () => {
+            game.settings.spaceshipSpeed *= 1.5;
         }, null, this);
     }
     
@@ -118,6 +136,12 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+        }
+
+        // update hi score
+        if (this.p1Score > hiScore) {
+            hiScore = this.p1Score;
+            this.highScore.text = "High Score: " + hiScore;
         }
     }
 

@@ -15,3 +15,8 @@ game.settings = {
 
 // reserve some keyboard variables
 let keyF, keyLEFT, keyRIGHT;
+
+// global highscore value
+let hiScore = 0;
+
+let fireUI;
