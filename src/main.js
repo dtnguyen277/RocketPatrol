@@ -1,3 +1,9 @@
+// Daniel Nguyen
+// Dnguy182@ucsc.edu
+// Starting Tier
+// Music: 8-Bit Surf by David Renda 
+// Link: https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6
+
 let config = {
     type: Phaser.CANVAS,
     width: 640,
