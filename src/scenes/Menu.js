@@ -45,9 +45,6 @@ class Menu extends Phaser.Scene {
         this.highScore = this.add.text(game.config.width - 300, 54, "High Score: " 
         + hiScore, menuConfig);
 
-        // launch the next scene
-        // this.scene.start("playScene");
-
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard
         .KeyCodes.LEFT);
